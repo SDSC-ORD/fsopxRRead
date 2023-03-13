@@ -1,100 +1,49 @@
-#' Transform px dimension into a px dimension values key
+#' Extract metadata from px rows for the default language
 #'
-#' @param dimension_name such as "Jahr"
-#'
-#' @return VALUES px key such as VALUES("Year")
-#' @noRd
-#'
-#' @examples get_dimension_key("Jahr")
-get_dimension_key <- function(dimension_name) {
-  dimension_key <- paste0('VALUES("', dimension_name, '")')
-  return(dimension_key)
-}
-
-#' Get dimension values for a px_variable such as STUB or HEADING
-#'
-#' @importFrom dplyr %>%
-#'
-#' @param px_rows as key value pairs of a px file
-#' @param dimension_name dimension name such as "Jahr"
-#'
-#' @return values for the px dimension key
-#' @noRd
-#'
-#' @examples get_dimension_values(list('VALUES("Jahr")'= c('1876','1877','1878'), 'STUB'='Jahr'), 'STUB')
-get_dimension_values <- function(px_rows, px_variable) {
-  dimension_names <- px_rows[[px_variable]]
-  dimensions <- list()
-  for (dimension_name in dimension_names) {
-    values_key <- get_dimension_key(dimension_name)
-    dimension_values <- px_rows[[values_key]] %>% list()
-    names(dimension_values) = dimension_name
-    dimensions <- append(dimensions, dimension_values)
-  }
-  return(dimensions)
-}
-
-#' Get metadata as a named list of px keys and values
+#' Only px rows that don't contain translations are considered
 #'
 #' @param px_rows as px key value pairs
+#' @param is_multilingual bool value to indicate the px cube has translations
+#' @param language_pattern regex pattern to detect translations in px_keys
 #'
-#' @return px metadata as a list of key value pairs
+#' @return metadata and also write it to a json file
 #' @noRd
 #'
-#' @examples process_px_metadata(list('DESCRIPTION'='Heiraten seit 1876'))
-process_px_metadata <- function(px_rows) {
-  keys <- get_px_keys(px_rows)
-  stub <- get_dimension_values(px_rows, "STUB")
-  heading <- get_dimension_values(px_rows, "HEADING")
-  metadata <- list()
-  for (px_key in keys) {
-    metadata[[px_key]] <- px_rows[[px_key]]
-  }
-  metadata[['STUB']] = stub
-  metadata[['HEADING']] = heading
-  return(metadata)
-}
-
-#' Check px key whether it is a basic key or belongs to a translation
-#'
-#' @param key one px key
-#'
-#' @return bool that indicates whether the key is a basic key
-#' @noRd
-#'
-#' @examples is_language_specific('TITLE[fr]')
-is_language_specific <- function(key) {
-  key_contains_language <- grepl(pattern="[[](fr|it|en|de)[]]", x=key)
-  return(key_contains_language)
-}
-
-#' Get non language px_keys
-#'
-#' @param keys vector of px keys
-#'
-#' @return vector of px keys that are not keys for translations
-#' @noRd
-#'
-#' @examples get_non_language_px_keys(c('DESCRIPTION', 'TITLE[fr]'))
-get_non_language_px_keys <- function(keys) {
-  selected <- keys[!is_language_specific(keys)]
-  return(selected)
-}
-
-#' Get px keys
-#'
-#' @param px_rows as key value pairs of a px file
-#' @param include_translations include px_keys for translations
-#'
-#' @return vector of px keys
-#' @noRd
-#'
-#' @examples get_px_keys(list('DESCRIPTION="Scheidungen seit 1876"'))
-get_px_keys <- function(px_rows, include_translations=FALSE) {
+#' @examples process_px_metadata(list('DESCRIPTION'='Heiraten seit 1876'),
+#'                               TRUE, "[[](de|en)[]]")
+process_px_metadata <- function(px_rows, is_multilingual, language_pattern) {
   px_keys <- names(px_rows)
-  if (include_translations) {
-    return(px_keys)
+  if (is_multilingual) {
+    px_keys <- px_keys[!is_language_specific(px_keys, language_pattern)]
   }
-  base_px_keys <- get_non_language_px_keys(px_keys)
-  return(base_px_keys)
+
+  dimensions <- c(px_rows$STUB, px_rows$HEADING)
+
+  # pattern to recognize dimensions being part of px keys
+  dimension_pattern <- get_dimension_pattern(dimensions)
+
+  metadata <- list()
+  for (px_key in px_keys) {
+    if (px_key %in% c('STUB', 'HEADING')) {
+      # the dimensions are collected together with their values:
+      # the values are stored in seperate px_rows
+      metadata[[px_key]] = get_dimension_values(px_rows, px_key)
+
+    } else if (belongs_to_dimensions(px_key, dimension_pattern) ) {
+      # some px keys are composed of a px key word and dimensions and values
+      key_parts <- get_key_parts_from_dimension_key(px_key)
+      if (key_parts[1] == "VALUES") {
+        next
+      }
+      if (length(key_parts) == 2) {
+        metadata[[key_parts[1]]][[key_parts[2]]] <- px_rows[[px_key]]
+      } else if (length(key_parts) == 3) {
+        metadata[[key_parts[1]]][[key_parts[2]]][[key_parts[3]]]<- px_rows[[px_key]]
+      }
+    } else {
+      # digest a simple metadata key
+      metadata[[px_key]] <- px_rows[[px_key]]
+    }
+  }
+  return(metadata)
 }

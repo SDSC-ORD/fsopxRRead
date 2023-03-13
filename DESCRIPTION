@@ -14,6 +14,7 @@ Config/testthat/edition: 3
 Imports: 
     dplyr,
     here,
-    janitor,
+    purrr,
+    rlist,
     stringr,
     tibble

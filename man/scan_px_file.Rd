@@ -4,17 +4,25 @@
 \alias{scan_px_file}
 \title{Scan a px cube file and return px data and metadata}
 \usage{
-scan_px_file(file_or_url)
+scan_px_file(file_or_url, locale = "default", output_dir = "default")
 }
 \arguments{
-\item{px_file}{px cube file}
+\item{file_or_url}{url or file path to px cube}
+
+\item{locale}{language for localizing the output}
+
+\item{output_dir}{directory for writing the output files}
 }
 \value{
-list with the dataframe as a tibble and the metadata as a list
+output is offered as json files and the data as csv file or dataframe
 }
 \description{
-Scan a px cube file and return px data and metadata
+The Px file can be requested for a locale
+The output contains the metadata as json files. Also the translations
+are provided as json files that contain string tranlations
+The data is returned as a dataframe but also as csv file
+The output will be stored in an output directory of choice
 }
 \examples{
-scan_px_file("px-x-0102020203_110.px")
+scan_px_file("px-x-0102020203_110.px", locale="en", output_dir="/tmp/")
 }

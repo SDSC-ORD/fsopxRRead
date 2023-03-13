@@ -1,15 +1,16 @@
-# Tests for process_px_metadata:
+# Tests for extract_translations:
 
-test_that("process metadata from px rows", {
+test_that("test extract tranlations", {
   raw_metadata <- list(TITLE='Scheidungen seit 1876', 'TITLE[en]'='Divorces since 1876',
                   STUB="Jahr", "STUB[en]"="Year",
                   "HEADING"="Indikator", "HEADING[en]"="Indicator", 'VALUES(\"Jahr\")'=c("2013","2014"),
                   'VALUES[en](\"Year\")'=c("2013","2014"), 'VALUES(\"Indikator\")'=c("Fall 1","Fall 2"),
                   'VALUES[en](\"Indicator\")'=c("Case 1","Case 2"))
-  is_multilingual <- TRUE
+  languages <- c("de", "en")
+  default_language <- "de"
   language_pattern <- "[[](de|en)[]]"
-  output <- process_px_metadata(raw_metadata, is_multilingual, language_pattern)
-  expected_output <- list("TITLE"="Scheidungen seit 1876", "STUB"=list("Jahr"=c("2013","2014")),
-                          "HEADING"=list("Indikator"=c("Fall 1", "Fall 2")))
+  output <- extract_translations(raw_metadata, languages, default_language, language_pattern)
+  expected_output <- list(en=list("Scheidungen seit 1876"="Divorces since 1876", "Jahr"="Year",
+                                  "Indikator"="Indicator", "Fall 1"="Case 1", "Fall 2"="Case 2"))
   expect_equal(output, expected_output)
 })
