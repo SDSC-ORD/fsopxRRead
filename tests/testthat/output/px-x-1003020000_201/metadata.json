@@ -1,0 +1,63 @@
+{
+  "CHARSET": "ANSI",
+  "AXIS-VERSION": "2010",
+  "CODEPAGE": "iso-8859-15",
+  "LANGUAGE": "de",
+  "LANGUAGES": ["de", "fr", "it", "en"],
+  "CREATION-DATE": "20150116 09:15",
+  "DECIMALS": "9",
+  "SHOWDECIMALS": "0",
+  "MATRIX": "px-x-1003020000_201",
+  "SUBJECT-CODE": "10",
+  "SUBJECT-AREA": "10 - Tourismus",
+  "DESCRIPTION": "Hotellerie: Angebot und Nachfrage der geöffneten Betriebe in 100 Gemeinden nach Jahr, Monat und Gemeinde",
+  "TITLE": "Hotellerie: Angebot und Nachfrage der geöffneten Betriebe nach Jahr, Monat, Gemeinde und Indikator",
+  "CONTENTS": "Hotellerie: Angebot und Nachfrage der geöffneten Betriebe",
+  "UNITS": "Indikator",
+  "STUB": {
+    "Jahr": ["2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+    "Monat": ["Jahrestotal", "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+    "Gemeinde": ["Kloten", "Opfikon", "Winterthur", "Zürich", "Bern", "Biel/Bienne", "Adelboden", "Kandersteg", "Beatenberg", "Brienz (BE)", "Grindelwald", "Interlaken", "Lauterbrunnen", "Matten bei Interlaken", "Unterseen", "Wilderswil", "Spiez", "Hasliberg", "Meiringen", "Lenk", "Saanen", "Sigriswil", "Thun", "Kriens", "Luzern", "Weggis", "Andermatt", "Einsiedeln", "Feusisberg", "Freienbach", "Küssnacht (SZ)", "Ingenbohl", "Morschach", "Engelberg", "Kerns", "Sachseln", "Glarus Nord", "Glarus Süd", "Zug", "Bulle", "Fribourg", "Olten", "Solothurn", "Basel", "Pratteln", "Schaffhausen", "Schwende", "Schwende-Rüte", "St. Gallen", "Bad Ragaz", "Quarten", "Wildhaus-Alt St. Johann", "Vaz/Obervaz", "Laax", "Vals", "Flims", "Zernez", "Samnaun", "Scuol", "Celerina/Schlarigna", "Pontresina", "Samedan", "St. Moritz", "Sils im Engadin/Segl", "Silvaplana", "Davos", "Klosters-Serneus", "Chur", "Arosa", "Disentis/Mustér", "Baden", "Bad Zurzach", "Zurzach", "Bellinzona", "Ascona", "Locarno", "Minusio", "Muralto", "Lugano", "Paradiso", "Gambarogno", "Leysin", "Ollon", "Ormont-Dessus", "Lausanne", "Morges", "Montreux", "Vevey", "Brig-Glis", "Bagnes", "Val de Bagnes", "Leukerbad", "Leytron", "Martigny", "Montana", "Anniviers", "Crans-Montana", "Sion", "Saas-Fee", "Täsch", "Zermatt", "Neuchâtel", "Genève", "Meyrin"]
+  },
+  "HEADING": {
+    "Indikator": ["Betriebe", "Zimmer", "Betten", "Ankünfte", "Logiernächte", "Zimmernächte", "Zimmerauslastung in %", "Bettenauslastung in %"]
+  },
+  "CODES": {
+    "Jahr": ["2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+    "Monat": ["YYYY", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+    "Gemeinde": ["62", "66", "230", "261", "351", "371", "561", "565", "571", "573", "576", "581", "584", "587", "593", "594", "768", "783", "785", "792", "843", "938", "942", "1059", "1061", "1069", "1202", "1301", "1321", "1322", "1331", "1364", "1366", "1402", "1404", "1406", "1630", "1631", "1711", "2125", "2196", "2581", "2601", "2701", "2831", "2939", "3105", "3112", "3203", "3291", "3295", "3359", "3506", "3575", "3603", "3732", "3746", "3752", "3762", "3782", "3784", "3786", "3787", "3789", "3790", "3851", "3871", "3901", "3921", "3982", "4021", "4323", "4324", "5002", "5091", "5113", "5118", "5120", "5192", "5210", "5398", "5407", "5409", "5411", "5586", "5642", "5886", "5890", "6002", "6031", "6037", "6111", "6135", "6136", "6243", "6252", "6253", "6266", "6290", "6295", "6300", "6458", "6621", "6630"],
+    "Indikator": ["1", "2", "3", "4", "5", "6", "7", "8"]
+  },
+  "ELIMINATION": {
+    "Monat": "Jahrestotal"
+  },
+  "PRECISION": {
+    "Monat": {
+      "Jahrestotal": "2"
+    },
+    "Indikator": {
+      "Zimmerauslastung in %": "2",
+      "Bettenauslastung in %": "2"
+    }
+  },
+  "LAST-UPDATED": "20230223 10:15",
+  "CONTACT": "Sektion Tourismus, +41 58 463 62 80, E-Mail: info-tour@bfs.admin.ch",
+  "REFPERIOD": "2022,2021,2020,2019,2018,2017,2016,2015,2014,2013",
+  "DATABASE": "BFS - STAT-TAB / Bundesamt für Statistik, 2010 Neuchâtel / Schweiz / © Bundesamt für Statistik",
+  "SOURCE": "BFS - Beherbergungsstatistik - © BFS",
+  "SURVEY": "Beherbergungsstatistik (HESTA)",
+  "LINK": "https://www.bfs.admin.ch/asset/de/px-x-1003020000_201",
+  "NOTE": "<B>Metainformation:<\/B>#Letzte Änderungen: neuer Datensatz (neuer Monat)#Stand der Datenbank: 3 Arbeitstage vor der Veröffentlichung#Erhebungsperiode: Kalendermonat#Raumbezug: Gemeinden per 01.05.2022#Datenquelle: Beherbergungsstatistik (HESTA)##<B>Verwendete Zeichen<\/B> :#'...' : Zahl nicht angegeben, da nicht relevant oder nicht verfügbar#'X' : Entfällt aus Datenschutzgründen (es gibt in der betreffenden Gemeinde weniger als 3 Betriebe).##<B>Bemerkungen<\/B>:#Hotellerie: Hotels und Kurbetriebe#Geöffnete Betriebe: Anzahl der im Erhebungsmonat während mindestens einem Tag geöffneten Betriebe#100 Gemeinden: Es handelt sich um 100 Gemeinden, die in den letzten 5 Jahren die höchsten Logiernächtezahlen aufwiesen und nicht unter Datenschutz standen. Aus Datenschutzgründen sind diese jedoch nicht vor 2013 erhältlich, da Sie bei den Monatswerten den Datenschutz verletzen.##<B>Informationen über Mutationen:<\/B>#Die Gemeinde Montana ist aufgrund einer Fusion ab dem 31. Dezember 2016 nicht mehr sichtbar. Die Gemeinde Crans-Montana wurde am 1. Januar 2017 gegründet und hat daher zuvor keine Zahlen.#Die Gemeinde Bagnes ist aufgrund der Fusion ab dem 31. Dezember 2020 nicht mehr sichtbar. Die Gemeinde Val de Bagnes wurde am 1. Januar 2021 gegründet und hat daher zuvor keine Zahlen.#Die Gemeinde Bad Zurzach ist aufgrund der Fusion ab dem 31. Dezember 2021 nicht mehr sichtbar. Die Gemeinde Zurzach wurde am 1. Januar 2022 gegründet und hat daher zuvor keine Zahlen.#Die Gemeinde Schwende ist aufgrund der Fusion ab dem 30. April 2022 nicht mehr sichtbar. Die Gemeinde Schwende-Rüte wurde am 1. Mai 2022 gegründet und hat daher zuvor keine Zahlen.##<B>Methodische Anmerkung zu den Jugendherbergen<\/B>:#Ab dem 1. Januar 2017 wurden vierzehn Betriebe der Schweizer Jugendherbergen, deren Merkmale den Kriterien der NOGA (Allgemeine Systematik der Wirtschaftszweige) für Hotels und ähnliche Unterkünfte weitgehend entsprechen, in die Beherbergungsstatistik aufgenommen. Diesem Umstand ist bei der Interpretation der Ergebnisse 2017 Rechnung zu tragen.#",
+  "VALUENOTE": {
+    "Indikator": {
+      "Zimmer": "Anzahl verfügbare Zimmer in den geöffneten Betrieben",
+      "Betten": "Anzahl verfügbare Betten in den geöffneten Betrieben",
+      "Zimmerauslastung in %": "Anzahl Zimmernächte dividiert durch die gesamte Nettozimmerkapazität der betreffenden Periode, in Prozenten ausgedrückt (die Nettozimmerkapazität entspricht der Anzahl Zimmer eines Betriebes im Erhebungsmonat multipliziert mit der Anzahl Öffnungstage dieses Betriebes in dem Monat).",
+      "Bettenauslastung in %": "Anzahl Logiernächte dividiert durch die gesamte Nettobettenkapazität der betreffenden Periode, in Prozenten ausgedrückt (die Nettobettenkapazität entspricht der Anzahl Betten eines Betriebes im Erhebungsmonat multipliziert mit der Anzahl Öffnungstage dieses Betriebes in dem Monat)."
+    }
+  },
+  "DATASYMBOL1": "-",
+  "DATASYMBOL4": "*",
+  "DATASYMBOL5": "( )",
+  "DATASYMBOL6": "X"
+}
