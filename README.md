@@ -71,7 +71,6 @@ In this case the metadata and dataframe will use the translations for the given 
 The output is structure in such a way, that it can directly be written to json or csv files.
 This is done by providing an output directory: 
 
-
 ``` r
 output <- scan_px_file('https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0602000000_107',
                         locale="en",
@@ -82,8 +81,6 @@ For multilingual files the output consists of the following files:
 
 - `metadata.json` : this file stores the metadata redundance free in the default language
 - `metadata-en.json`: a file where the metadata is translated to the given locale
-- `en.json`: for every languages in the px cube `LANGUAGES` a file with string translations is
-  derived: these string translations were used to translate the metadata
 - `data-en.csv`: a csv file with the data and the headers in the chosen locale
 
 ### Examples
