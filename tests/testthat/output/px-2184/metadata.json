@@ -1,0 +1,35 @@
+{
+  "AXIS-VERSION": "2006",
+  "CREATION-DATE": "20220224",
+  "CHARSET": "ANSI",
+  "SUBJECT-AREA": "Índice de Precios de Vivienda",
+  "SUBJECT-CODE": "1",
+  "MATRIX": "2007_CC",
+  "TITLE": "Índices por CCAA: general, vivienda nueva y de segunda mano ",
+  "CONTENTS": "Índices",
+  "CODEPAGE": "iso-8859-15",
+  "DESCRIPTION": "",
+  "COPYRIGHT": "YES",
+  "DECIMALS": "1",
+  "SHOWDECIMALS": "1",
+  "STUB": {
+    "Comunidades y Ciudades Autónomas": ["Nacional", "01 Andalucía", "02 Aragón", "03 Asturias, Principado de", "04 Balears, Illes", "05 Canarias", "06 Cantabria", "07 Castilla y León", "08 Castilla - La Mancha", "09 Cataluña", "10 Comunitat Valenciana", "11 Extremadura", "12 Galicia", "13 Madrid, Comunidad de", "14 Murcia, Región de", "15 Navarra, Comunidad Foral de", "16 País Vasco", "17 Rioja, La", "18 Ceuta", "19 Melilla"],
+    "General, vivienda nueva y de segunda mano": ["General", "Vivienda nueva", "Vivienda segunda mano"]
+  },
+  "HEADING": {
+    "Índices y tasas": ["Índice", "Variación trimestral", "Variación anual", "Variación en lo que va de año"],
+    "Periodo": ["2016T4", "2016T3", "2016T2", "2016T1", "2015T4", "2015T3", "2015T2", "2015T1", "2014T4", "2014T3", "2014T2", "2014T1", "2013T4", "2013T3", "2013T2", "2013T1", "2012T4", "2012T3", "2012T2", "2012T1", "2011T4", "2011T3", "2011T2", "2011T1", "2010T4", "2010T3", "2010T2", "2010T1", "2009T4", "2009T3", "2009T2", "2009T1", "2008T4", "2008T3", "2008T2", "2008T1", "2007T4", "2007T3", "2007T2", "2007T1"]
+  },
+  "CODES": {
+    "Comunidades y Ciudades Autónomas": ["CA00", "CA01", "CA02", "CA03", "CA04", "CA05", "CA06", "CA07", "CA08", "CA09", "CA10", "CA11", "CA12", "CA13", "CA14", "CA15", "CA16", "CA17", "CA18", "CA19"]
+  },
+  "MAP": {
+    "Comunidades y Ciudades Autónomas": ""
+  },
+  "PRECISION": {
+    "Índices y tasas": {
+      "Índice": "3"
+    }
+  },
+  "UNITS": "  Índice,   Tasas"
+}
