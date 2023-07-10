@@ -11,9 +11,51 @@
 #' @examples get_supported_px_keywords()
 get_supported_px_keywords <- function(
   ) {
-  key_path <- here::here("supported_keywords.csv")
-  keywords <- read.csv(key_path)
-  return(keywords[["supported"]])
+  keywords <- c(
+    "CHARSET",
+    "AXIS-VERSION",
+    "CODEPAGE",
+    "LANGUAGE",
+    "LANGUAGES",
+    "CREATION-DATE",
+    "UPDATE-FREQUENCY",
+    "DECIMALS",
+    "SHOWDECIMALS",
+    "MATRIX",
+    "SUBJECT-CODE",
+    "SUBJECT-AREA",
+    "COPYRIGHT",
+    "DESCRIPTION",
+    "TITLE",
+    "DESCRIPTIONDEFAULT",
+    "CONTENTS",
+    "UNITS",
+    "STUB",
+    "HEADING",
+    "VALUES",
+    "CODES",
+    "MAP",
+    "ELIMINATION",
+    "LAST-UPDATED",
+    "CONTACT",
+    "REFPERIOD",
+    "DATABASE",
+    "SOURCE",
+    "SURVEY",
+    "LINK",
+    "NOTE",
+    "VALUENOTE",
+    "DATASYMBOL1",
+    "DATASYMBOL2",
+    "DATASYMBOL3",
+    "DATASYMBOL4",
+    "DATASYMBOL5",
+    "DATASYMBOL6",
+    "PRECISION",
+    "DATA"
+  )
+  print(keywords)
+  return(keywords)
 }
 #' Get keyword from lines of a px file
 #'
