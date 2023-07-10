@@ -33,7 +33,6 @@ get_supported_px_keywords <- function(
     "STUB",
     "HEADING",
     "VALUES",
-    "CODES",
     "MAP",
     "ELIMINATION",
     "LAST-UPDATED",
@@ -45,16 +44,9 @@ get_supported_px_keywords <- function(
     "LINK",
     "NOTE",
     "VALUENOTE",
-    "DATASYMBOL1",
-    "DATASYMBOL2",
-    "DATASYMBOL3",
-    "DATASYMBOL4",
-    "DATASYMBOL5",
-    "DATASYMBOL6",
     "PRECISION",
     "DATA"
   )
-  print(keywords)
   return(keywords)
 }
 #' Get keyword from lines of a px file
