@@ -12,6 +12,8 @@
 #' @param locale language for localizing the output (optional)
 #'        if not provided all possible translations in the px cube
 #'        are skipped
+#' @param encoding chose encoding as either UTF-8 or latin1
+#'        default is latin1
 #' @param output_dir directory for writing the output files (optional)
 #'        if not provided the output will not be offered as files
 #'
@@ -19,16 +21,18 @@
 #'         additionally the output may be written to files
 #'         the files consist of a csv file with the data and
 #'         a json file with the metadata. In case a locale is
-#'         requested, the default metadata is provided along 
+#'         requested, the default metadata is provided along
 #'         with the translated metadata
 #' @export
 #'
 #' @examples scan_px_file("px-x-0102020203_110.px",
-#'                        locale="en", 
+#'                        locale="en",
+#'                        encoding="UTF-8",
 #'                        output_dir="/tmp/")
 scan_px_file <- function(
   file_or_url,
   locale = "default",
+  encoding = "latin1",
   output_dir = NULL) {
   tryCatch(
     {
@@ -36,13 +40,14 @@ scan_px_file <- function(
       file <- check_file_or_url(file_or_url, locale)
 
       check_output_dir(output_dir)
+      assertthat::assert_that(encoding %in% c("UTF-8", "latin1"))
 
       supported_keywords <- get_supported_px_keywords()
 
       # scan px file with ASCII encoding
       scanned_lines <- scan(
         file_or_url, what = "list", sep = ";", quote = NULL,
-        quiet = TRUE, encoding = "latin1", multi.line = TRUE)
+        quiet = TRUE, encoding = encoding, multi.line = TRUE)
     },
     error = function(error_message) {
       stop(error_message)
