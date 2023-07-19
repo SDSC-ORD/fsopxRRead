@@ -4,7 +4,12 @@
 \alias{scan_px_file}
 \title{Scan a px cube file and return px data and metadata}
 \usage{
-scan_px_file(file_or_url, locale = "default", output_dir = NULL)
+scan_px_file(
+  file_or_url,
+  locale = "default",
+  encoding = "latin1",
+  output_dir = NULL
+)
 }
 \arguments{
 \item{file_or_url}{url or file path to px cube
@@ -15,6 +20,9 @@ function.}
 \item{locale}{language for localizing the output (optional)
 if not provided all possible translations in the px cube
 are skipped}
+
+\item{encoding}{chose encoding as either UTF-8 or latin1
+default is latin1}
 
 \item{output_dir}{directory for writing the output files (optional)
 if not provided the output will not be offered as files}
@@ -35,6 +43,7 @@ The output will be stored in an output directory of choice.
 }
 \examples{
 scan_px_file("px-x-0102020203_110.px",
-                       locale="en", 
+                       locale="en",
+                       encoding="UTF-8",
                        output_dir="/tmp/")
 }
