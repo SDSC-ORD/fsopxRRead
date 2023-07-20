@@ -49,8 +49,6 @@ parse_px_lines <- function(
           # make sure the line is not empty
           if (is_supported_px_key(px_key, supported_keywords)) {
             px_rows <- append(px_rows, get_keyword_values_pair(px_line_group))
-          } else {
-            logger::log_info(paste("unsupported keyword detected", px_key))
           }
         }
         px_line_group <- c()
