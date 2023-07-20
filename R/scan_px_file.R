@@ -37,8 +37,7 @@ scan_px_file <- function(
   tryCatch(
     {
       # check px file format and get back default language and available locales
-      file <- check_file_or_url(file_or_url, locale)
-
+      file <- check_file_or_url(file_or_url, locale, encoding)
       check_output_dir(output_dir)
       assertthat::assert_that(encoding %in% c("UTF-8", "latin1"))
 
@@ -46,8 +45,13 @@ scan_px_file <- function(
 
       # scan px file with ASCII encoding
       scanned_lines <- scan(
-        file_or_url, what = "list", sep = ";", quote = NULL,
-        quiet = TRUE, encoding = encoding, multi.line = TRUE)
+        file_or_url,
+        what = "list",
+        sep = ";",
+        quote = NULL,
+        quiet = TRUE,
+        fileEncoding = file$file_encoding,
+        multi.line = TRUE)
     },
     error = function(error_message) {
       stop(error_message)
