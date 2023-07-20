@@ -6,6 +6,7 @@
 #' @importFrom dplyr %>%
 #' @param file_or_url url to download a px cube
 #' @param locale language to localize a multilingual file into
+#' @param encoding encoding of the file
 #'
 #' @return file: list of attributes for the file,
 #'         including a bool flag that indicates whether the file
@@ -17,17 +18,19 @@
 #' "en")
 check_file_or_url <- function(
   file_or_url,
-  locale = "default"
+  locale = "default",
+  encoding = "latin1"
   ) {
   tryCatch(
     {
-      lines <- readr::read_lines(file_or_url,  n_max = 10)
+      lines <- readLines(con = file_or_url, n = 10,
+                encoding = encoding)
       keywords <- get_keywords_from_lines(lines)
       if (!("AXIS-VERSION" %in% keywords)) {
         stop("File is not a px cube: could not find AXIS-VERSION statement")
       }
       if (!('CHARSET=\"ANSI\";' %in% lines)) {
-        stop("File has not the expected ANSI encoding: 
+        stop("File has not the expected ANSI encoding:
               file an issue and ask for an extensions to other encodings")
       }
       if ("LANGUAGES" %in% keywords) {
@@ -38,9 +41,10 @@ check_file_or_url <- function(
           stop("File has translations but no default language.")
         }
         language_pattern <- get_language_pattern_for_keys(languages)
-        file <- list(is_multilingual = TRUE, languages = languages,
-                             language_pattern = language_pattern,
-                             default_language = default_language)
+        file <- list(is_multilingual = TRUE,
+                     languages = languages,
+                     language_pattern = language_pattern,
+                     default_language = default_language)
         if (locale == "default") {
           file$locale <- file$default_language
         } else if (locale %in% file$languages) {
@@ -60,5 +64,6 @@ check_file_or_url <- function(
       stop(error_message)
     }
   )
+  file$file_encoding <- get_file_encoding(lines)
   return(file)
 }
