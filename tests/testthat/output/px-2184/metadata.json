@@ -1,6 +1,6 @@
 {
   "AXIS-VERSION": "2006",
-  "CREATION-DATE": "20220224",
+  "CREATION-DATE": "20230423",
   "CHARSET": "ANSI",
   "SUBJECT-AREA": "Índice de Precios de Vivienda",
   "SUBJECT-CODE": "1",
@@ -20,11 +20,8 @@
     "Índices y tasas": ["Índice", "Variación trimestral", "Variación anual", "Variación en lo que va de año"],
     "Periodo": ["2016T4", "2016T3", "2016T2", "2016T1", "2015T4", "2015T3", "2015T2", "2015T1", "2014T4", "2014T3", "2014T2", "2014T1", "2013T4", "2013T3", "2013T2", "2013T1", "2012T4", "2012T3", "2012T2", "2012T1", "2011T4", "2011T3", "2011T2", "2011T1", "2010T4", "2010T3", "2010T2", "2010T1", "2009T4", "2009T3", "2009T2", "2009T1", "2008T4", "2008T3", "2008T2", "2008T1", "2007T4", "2007T3", "2007T2", "2007T1"]
   },
-  "CODES": {
-    "Comunidades y Ciudades Autónomas": ["CA00", "CA01", "CA02", "CA03", "CA04", "CA05", "CA06", "CA07", "CA08", "CA09", "CA10", "CA11", "CA12", "CA13", "CA14", "CA15", "CA16", "CA17", "CA18", "CA19"]
-  },
   "MAP": {
-    "Comunidades y Ciudades Autónomas": ""
+    "Comunidades y Ciudades Autónomas": "spain_regions_img_ind"
   },
   "PRECISION": {
     "Índices y tasas": {
