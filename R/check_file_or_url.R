@@ -26,12 +26,8 @@ check_file_or_url <- function(
       lines <- readLines(con = file_or_url, n = 10,
                 encoding = encoding)
       keywords <- get_keywords_from_lines(lines)
-      if (!("AXIS-VERSION" %in% keywords)) {
-        stop("File is not a px cube: could not find AXIS-VERSION statement")
-      }
-      if (!('CHARSET=\"ANSI\";' %in% lines)) {
-        stop("File has not the expected ANSI encoding:
-              file an issue and ask for an extensions to other encodings")
+      if (!("MATRIX" %in% keywords)) {
+        stop("File is not a px cube: could not find mandatory MATRIX statement")
       }
       if ("LANGUAGES" %in% keywords) {
         languages <- get_languages_for_keyword(lines, "LANGUAGES")
