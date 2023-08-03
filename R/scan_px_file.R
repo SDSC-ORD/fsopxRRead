@@ -43,14 +43,13 @@ scan_px_file <- function(
 
       supported_keywords <- get_supported_px_keywords()
 
-      # scan px file with ASCII encoding
       scanned_lines <- scan(
         file_or_url,
         what = "list",
         sep = ";",
         quote = NULL,
         quiet = TRUE,
-        fileEncoding = file$file_encoding,
+        encoding = encoding,
         multi.line = TRUE)
     },
     error = function(error_message) {

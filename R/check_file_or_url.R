@@ -24,7 +24,7 @@ check_file_or_url <- function(
   tryCatch(
     {
       lines <- readLines(con = file_or_url, n = 10,
-                encoding = encoding)
+                         encoding = encoding)
       keywords <- get_keywords_from_lines(lines)
       if (!("MATRIX" %in% keywords)) {
         stop("File is not a px cube: could not find mandatory MATRIX statement")
@@ -60,6 +60,5 @@ check_file_or_url <- function(
       stop(error_message)
     }
   )
-  file$file_encoding <- get_file_encoding(lines)
   return(file)
 }
