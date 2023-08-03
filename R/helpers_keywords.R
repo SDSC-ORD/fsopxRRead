@@ -229,31 +229,3 @@ get_key_pattern_locale <- function(
   ) {
   return(paste0("[", locale, "]"))
 }
-
-#' Get px file encoding
-#'
-#' get the encoding of the px file: default is "iso-8859-1"
-#' otherwise the encoding is stored in the variable "CODEPAGE"
-#'
-#' @importFrom dplyr %>%
-#'
-#' @param lines scanned px_lines as strings
-#'
-#' @return file_encoding in the example this would be "iso-8859-15"
-#' @noRd
-#'
-#' @example get_file_encoding("CODEPAGE=\"iso-8859-15\";")
-get_file_encoding <- function(
-    lines
-) {
-  file_encoding <- "iso-8859-1"
-  keyword_id <- "CODEPAGE"
-  lines <- lines[startsWith(lines, keyword_id)] %>%
-    strsplit(lines, split = "=") %>%
-    unlist()
-  lines <- strsplit(lines[2], split = '\",\"') %>%
-    unlist()
-  file_encoding <- stringr::str_replace_all(lines, '\"', "") %>%
-    stringr::str_replace_all(";", "")
-  return(file_encoding)
-}
