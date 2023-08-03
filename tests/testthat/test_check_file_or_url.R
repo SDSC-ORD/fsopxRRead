@@ -29,8 +29,7 @@ test_that("okay case: file multilingual and locale is valid", {
                           languages = c("de", "fr", "it", "en"),
                           language_pattern = "[[](de|fr|it|en)[]]",
                           default_language = "de",
-                          locale = "en",
-                          file_encoding = "iso-8859-15")
+                          locale = "en")
   expect_equal(output, expected_output)
 })
 

@@ -17,7 +17,7 @@ test_that("scan px cube file: px-x-1003020000_201.px", {
 
 test_that("scan px cube file: 2184.px", {
   url <- "http://www.ine.es/jaxiT3/files/t/es/px/2184.px"
-  output <- scan_px_file(url, encoding = "latin1")
+  output <- scan_px_file(url)
   expect_equal(length(output$metadata), 18)
   expect_equal(dim(output$dataframe), c(9600, 5))
   expect_vector(output$metadata)
@@ -27,7 +27,7 @@ test_that("error case: invalid file format", {
   url <- "https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=a"
   suppressWarnings({
     expect_error(scan_px_file(url),
-                 "File is not a px cube: could not find AXIS-VERSION statement")
+                 "File is not a px cube: could not find mandatory MATRIX statement")
   })
 })
 
