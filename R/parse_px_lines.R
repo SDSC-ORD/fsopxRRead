@@ -27,8 +27,9 @@ parse_px_lines <- function(
   scanned_lines <- append(scanned_lines, "")
   px_rows <- list()
   px_line_group <- c()
+  data_start <- get_data_start_idx(scanned_lines)
 
-  for (i in seq_along(scanned_lines)) {
+  for (i in seq_along(scanned_lines[1:data_start])) {
 
     # the empty line separate the px key value blocks after scanning
     if (scanned_lines[i] != "") {
@@ -41,11 +42,7 @@ parse_px_lines <- function(
     # the key is contained in the first row of the line group
     px_key <- get_keywords_from_lines(px_line_group[1])
 
-    if (px_key == "DATA") {
-      # process the actual data
-      data <- vectorize_px_data(px_line_group)
-
-    } else if (grepl("[A-Z-]", px_key)) {
+    if (grepl("[A-Z-]", px_key)) {
 
       # make sure the line is not empty
       if (is_supported_px_key(px_key, supported_keywords)) {
@@ -54,5 +51,26 @@ parse_px_lines <- function(
     }
     px_line_group <- c()
   }
+
+  data <- vectorize_px_data(scanned_lines[data_start:length(scanned_lines)])
   return(list(metadata = px_rows, data = data))
+}
+
+
+#' Retrieves the 1-based index of the line with the first
+#' data record in a px cube.
+#'
+#' @param lines all scanned line of the px file
+#'
+#' @return an integer representing the line number where the cube starts
+#' @noRd
+#'
+#' @examples parse_px_lines(c('A', 'B', 'DATA=', '1', '2', '3')) 
+get_data_start_idx <- function(lines) {
+    is_data_key <- stringr::str_detect(lines, 'DATA=')
+    if (sum(is_data_key) != 1) {
+        stop("Invalid file: Must have exactly one DATA key.")
+    }
+
+    return(which(is_data_key == TRUE))
 }
