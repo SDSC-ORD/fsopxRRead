@@ -8,6 +8,7 @@ scan_px_file(
   file_or_url,
   locale = "default",
   encoding = "latin1",
+  reverse_stub = FALSE,
   output_dir = NULL
 )
 }
@@ -23,6 +24,10 @@ are skipped}
 
 \item{encoding}{chose encoding as either UTF-8 or latin1
 default is latin1}
+
+\item{reverse_stub}{default FALSE: decided whether the sequence
+of the data is according to the order of the
+dimensions in the stub or in the revered order}
 
 \item{output_dir}{directory for writing the output files (optional)
 if not provided the output will not be offered as files}
@@ -45,5 +50,6 @@ The output will be stored in an output directory of choice.
 scan_px_file("px-x-0102020203_110.px",
                        locale="en",
                        encoding="UTF-8",
+                       reverse_stub = FALSE,
                        output_dir="/tmp/")
 }

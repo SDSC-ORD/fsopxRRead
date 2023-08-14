@@ -110,6 +110,7 @@ scan_px_file <- function(
   if (reverse_stub) {
     dimension_order <- c(metadata_output$HEADING, rev(metadata_output$STUB))
   }
+  print(dimension_order)
 
   # gather output as localized dataframe
   df <- expand.grid(dimension_order)
