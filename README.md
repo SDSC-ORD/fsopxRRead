@@ -58,8 +58,10 @@ The language code must match the language code used in the px cube and specified
 `LANGUAGES` keyword. 
 
 ``` r
-output <- scan_px_file('https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0602000000_107',
-                        locale="en")
+output <- scan_px_file(
+  'https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0602000000_107',
+  locale="en"
+)
 output$metadata
 output$dataframe
 ```
@@ -72,9 +74,10 @@ The output is structure in such a way, that it can directly be written to json o
 This is done by providing an output directory: 
 
 ``` r
-output <- scan_px_file('https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0602000000_107',
-                        locale="en",
-                        output_dir = paste0(getwd(), '/output/'))
+output <- scan_px_file(
+  'https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0602000000_107',
+  locale="en",
+  output_dir = paste0(getwd(), '/output/'))
 ```
 
 For multilingual files the output consists of the following files:
@@ -89,12 +92,38 @@ In `tests/testthat` in the directories `data` and `output` example input and
 output files are kept for testing purposes. They might also be helpful in understanding 
 how px cubes are parsed by the package.
 
-### Restrictions
+### Warnings and Restrictions
 
-In this version of the parser the following assumptions are made:
+#### Encoding
 
-- `CHARSET` is `ANSI`
-- `PX-AXIS` Version is `2010`
+Even though there is a `CODE_PAGE` specified in the px file the specified encoding
+does not always work to parse the file correctly with `scan` and `fileEncoding`.
+Therefor the encoding has been added as a parameter: `encoding`. The default is 
+`latin1`. So if the file encoding seems incorrect it can be changed to `UTF-8`:
+
+``` r
+output <- scan_px_file(
+  'https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-1002020000_101',
+  locale = "de",
+  encoding = "UTF-8")
+```
+
+#### Order of dimensions
+
+Since the px files have their data as one big array, it is essential to know
+how the dimesions are sequenced in order to crrectly map the numeric data to 
+their dimesnion attributes. It has been observed that for some 
+px files the order of dimensions is reversed. In order to allow of a correct parsing
+of these files and additional parameter has been introduced: `reverse_stub`:
+
+``` r
+output <- scan_px_file(
+  'https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0702000000_101',
+  locale = "de",
+  reverse_stub = TRUE)
+```
+
+#### Keywords
 
 Only keywords in the file `supported_keywords.csv` are currently supported.
 If an unsupported keyword is detected in the parsed px cube, the user is informed about this.

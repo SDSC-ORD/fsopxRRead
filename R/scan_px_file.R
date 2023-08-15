@@ -14,6 +14,9 @@
 #'        are skipped
 #' @param encoding chose encoding as either UTF-8 or latin1
 #'        default is latin1
+#' @param reverse_stub default FALSE: decided whether the sequence
+#'                     of the data is according to the order of the
+#'                     dimensions in the stub or in the revered order
 #' @param output_dir directory for writing the output files (optional)
 #'        if not provided the output will not be offered as files
 #'
@@ -28,11 +31,13 @@
 #' @examples scan_px_file("px-x-0102020203_110.px",
 #'                        locale="en",
 #'                        encoding="UTF-8",
+#'                        reverse_stub = FALSE,
 #'                        output_dir="/tmp/")
 scan_px_file <- function(
   file_or_url,
   locale = "default",
   encoding = "latin1",
+  reverse_stub = FALSE,
   output_dir = NULL) {
   tryCatch(
     {
@@ -100,8 +105,15 @@ scan_px_file <- function(
     metadata_output <- metadata_default
   }
 
+  # order dimensions
+  dimension_order <- c(metadata_output$HEADING, metadata_output$STUB)
+  if (reverse_stub) {
+    dimension_order <- c(metadata_output$HEADING, rev(metadata_output$STUB))
+  }
+  print(dimension_order)
+
   # gather output as localized dataframe
-  df <- expand.grid(c(metadata_output$HEADING, metadata_output$STUB))
+  df <- expand.grid(dimension_order)
   data_col_name <- paste0("data[", metadata_output$UNIT, "]")
   df[, data_col_name] <- px_cube$data
   output <- list("metadata" = metadata_output,
