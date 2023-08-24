@@ -108,21 +108,6 @@ output <- scan_px_file(
   encoding = "UTF-8")
 ```
 
-#### Order of dimensions
-
-Since the px files have their data as one big array, it is essential to know
-how the dimesions are sequenced in order to crrectly map the numeric data to 
-their dimesnion attributes. It has been observed that for some 
-px files the order of dimensions is reversed. In order to allow of a correct parsing
-of these files and additional parameter has been introduced: `reverse_stub`:
-
-``` r
-output <- scan_px_file(
-  'https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0702000000_101',
-  locale = "de",
-  reverse_stub = TRUE)
-```
-
 #### Keywords
 
 Only keywords in the file `supported_keywords.csv` are currently supported.
