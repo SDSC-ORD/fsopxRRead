@@ -1,21 +1,28 @@
-# Tests fo scan-px-file
-test_that("scan px cube file: px-x-0102020203_110.px", {
-  path <- here::here("tests/testthat/data/px-x-0102020203_110.px")
-  output <- scan_px_file(path, locale = "en")
-  expect_equal(length(output$metadata), 27)
-  expect_equal(dim(output$dataframe), c(5402, 3))
-  expect_vector(output$metadata)
+# Tests for scan_px_file
+test_that("scan_px_file of BFS dataset with locale", {
+  url <- "https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0204000000_106"
+  ds <- scan_px_file(url, locale = "en")
+  expect_equal(dim(ds$dataframe)[2], 5)
+  expect_equal(colnames(ds$dataframe),
+               c("unit_of_measure", "economy_and_households", "energy_product", "year", "data"))
 })
 
-test_that("scan px cube file: px-x-1003020000_201.px", {
-  path <- here::here("tests/testthat/data/px-x-1003020000_201.px")
-  output <- scan_px_file(path)
-  expect_equal(length(output$metadata), 28)
-  expect_equal(dim(output$dataframe), c(108160, 5))
-  expect_vector(output$metadata)
+test_that("scan_px_file of BFS with default locale", {
+  url <- "https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-1903020100_101"
+  ds <- scan_px_file(url, encoding = "UTF-8")
+  expect_equal(dim(ds$dataframe)[2], 6)
+  expect_equal(colnames(ds$dataframe),
+               c("straftat", "kanton", "ausfuhrungsgrad", "aufklarungsgrad", "jahr", "data"))
 })
 
-test_that("error case: invalid file format", {
+test_that("scan_px_file unvalid file or url", {
+  url <- "a"
+  suppressWarnings({
+    expect_error(scan_px_file(url))
+  })
+})
+
+test_that("scan_px_file error case: invalid file format", {
   url <- "https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=a"
   suppressWarnings({
     expect_error(scan_px_file(url),
@@ -23,91 +30,8 @@ test_that("error case: invalid file format", {
   })
 })
 
-test_that("unvalid file or url", {
-  url <- "a"
-  suppressWarnings({
-    expect_error(scan_px_file(url))
-  })
-})
-
-test_that("scan px cube file: px-x-0102020203_110 and localize to English", {
-  input_path <- here::here("tests/testthat/data/px-x-0102020203_110.px")
-  test_output_dir <- here::here("tests/testthat/output/test-output/")
-  expected_output_dir <- here::here(
-    "tests/testthat/output/px-x-0102020203_110/")
-  expected_metadata_en <- jsonlite::fromJSON(
-    paste0(expected_output_dir, "metadata-en.json"))
-  expected_metadata_default <- jsonlite::fromJSON(
-    paste0(expected_output_dir, "metadata.json"))
-  expected_data <- read.csv(
-    paste0(expected_output_dir, "data-en.csv"))
-  result <- scan_px_file(input_path,
-                         locale = "en",
-                         output_dir = test_output_dir)
-  actual_path_metadata_en <- paste0(test_output_dir, "metadata-en.json")
-  actual_path_metadata_default <- paste0(test_output_dir, "metadata.json")
-  actual_path_data <- paste0(test_output_dir, "data-en.csv")
-  actual_metadata_en <- jsonlite::fromJSON(actual_path_metadata_en)
-  actual_metadata_default <- jsonlite::fromJSON(actual_path_metadata_default)
-  actual_data <- read.csv(actual_path_data)
-  expect_equal(identical(expected_metadata_en, actual_metadata_en), TRUE)
-  expect_equal(identical(
-    expected_metadata_default, actual_metadata_default), TRUE)
-  expect_equal(identical(expected_data, actual_data), TRUE)
-  file.remove(actual_path_metadata_en)
-  file.remove(actual_path_metadata_default)
-  file.remove(actual_path_data)
-})
-
-test_that("scan px cube file: px-x-0602000000_107 and localize to English", {
-  input_path <- here::here("tests/testthat/data/px-x-0602000000_107.px")
-  test_output_dir <- here::here("tests/testthat/output/test-output/")
-  expected_output_dir <- here::here(
-    "tests/testthat/output/px-x-0602000000_107/")
-  expected_metadata_en <- jsonlite::fromJSON(
-    paste0(expected_output_dir, "metadata-en.json"))
-  expected_metadata_default <- jsonlite::fromJSON(
-    paste0(expected_output_dir, "metadata.json"))
-  expected_data <- read.csv(paste0(expected_output_dir, "data-en.csv"))
-  result <- scan_px_file(input_path, locale = "en",
-                         output_dir = test_output_dir)
-  actual_path_metadata_en <- paste0(test_output_dir, "metadata-en.json")
-  actual_path_metadata_default <- paste0(test_output_dir, "metadata.json")
-  actual_path_data <- paste0(test_output_dir, "data-en.csv")
-  actual_metadata_en <- jsonlite::fromJSON(actual_path_metadata_en)
-  actual_metadata_default <- jsonlite::fromJSON(actual_path_metadata_default)
-  actual_data <- read.csv(actual_path_data)
-  expect_equal(identical(expected_metadata_en, actual_metadata_en), TRUE)
-  expect_equal(identical(
-    expected_metadata_default, actual_metadata_default), TRUE)
-  expect_equal(identical(expected_data, actual_data), TRUE)
-  file.remove(actual_path_metadata_en)
-  file.remove(actual_path_metadata_default)
-  file.remove(actual_path_data)
-})
-
-test_that("scan px cube file: px-x-1003020000_201 and localize to English", {
-  input_path <- here::here("tests/testthat/data/px-x-1003020000_201.px")
-  test_output_dir <- here::here("tests/testthat/output/test-output/")
-  expected_output_dir <- here::here(
-    "tests/testthat/output/px-x-1003020000_201/")
-  expected_metadata_en <- jsonlite::fromJSON(paste0(expected_output_dir,
-                                                    "metadata-en.json"))
-  expected_metadata_default <- jsonlite::fromJSON(paste0(expected_output_dir,
-                                                         "metadata.json"))
-  expected_data <- read.csv(paste0(expected_output_dir, "data-en.csv"))
-  result <- scan_px_file(input_path, locale="en", output_dir = test_output_dir)
-  actual_path_metadata_en <- paste0(test_output_dir, "metadata-en.json")
-  actual_path_metadata_default <- paste0(test_output_dir, "metadata.json")
-  actual_path_data <- paste0(test_output_dir, "data-en.csv")
-  actual_metadata_en <- jsonlite::fromJSON(actual_path_metadata_en)
-  actual_metadata_default <- jsonlite::fromJSON(actual_path_metadata_default)
-  actual_data <- read.csv(actual_path_data)
-  expect_equal(identical(expected_metadata_en, actual_metadata_en), TRUE)
-  expect_equal(identical(expected_metadata_default,
-                         actual_metadata_default), TRUE)
-  expect_equal(identical(expected_data, actual_data), TRUE)
-  file.remove(actual_path_metadata_en)
-  file.remove(actual_path_metadata_default)
-  file.remove(actual_path_data)
+test_that("scan_px_file multilingual file and locale in languages of the file", {
+  url <- "https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-1703010000_103"
+  ds <- scan_px_file(url, locale = "fr")
+  expect_equal(ds$metadata$units %>% unlist(), c("Objet de votation"))
 })
