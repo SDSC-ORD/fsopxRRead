@@ -2,13 +2,14 @@
 # pxRRead
 
 <!-- badges: start -->
+![test-coverage](https://github.com/SDSC-ORD/pxRRead/actions/workflows/test-coverage.yaml/badge.svg)
+[![R-CMD-check](https://github.com/SDSC-ORD/pxRRead/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/SDSC-ORD/pxRRead/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## About
 
 The px file format is a format for offering statistical tables
-in an interactive way. It was introducted by the Statistics office of Schweden and
-is also used by statistical offices in other countries.
+in an interactive way. It was introduced by the Statistics office of Sweden and is also used by statistical offices in other countries.
 
 See here for a specification of this format: [px file format specification](https://www.scb.se/en/services/statistical-programs-for-px-files/px-file-format/)
 
@@ -18,7 +19,7 @@ The goal of pxRRead is parse px cube files:
 
 ## Installation
 
-You can install the development version of pxRRead from [GitHub](https://github.com/) with:
+You can install the development version of `pxRRead` with:
 
 ``` r
 # install.packages("devtools")
@@ -35,8 +36,9 @@ scan_px_file('https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0602000
 
 ## Output
 
-The goal of this package is to offer the metadata and data in a reduction free machine readable
-way.
+The goal of this package is to prepare the data and metadata for data science
+applications. This package is especially meant to also support large 
+multilingual px files and allow to localize them to a supported language.
 
 The output consist of a list of data and metadata:
 - `output$metadata` includes all metadata in the default language
@@ -51,11 +53,9 @@ output$dataframe
 
 ### Option to localize the output for multilingual px cubes
 
-If the px cube is multilingual: a locale can be specified with `locale=<language code>` to
-localize the output
+If the px cube is multilingual: a locale can be specified with `locale=<language code>` to localize the output: then the metadata and dataframe will use the translations for the given locale.
 
-The language code must match the language code used in the px cube and specified with the 
-`LANGUAGES` keyword. 
+The language code must match the language code used in the px cube and specified with the `LANGUAGES` keyword. 
 
 ``` r
 output <- scan_px_file(
@@ -66,31 +66,12 @@ output$metadata
 output$dataframe
 ```
 
-In this case the metadata and dataframe will use the translations for the given locale.
-
-### Option to write the output to json and csv files
-
-The output is structure in such a way, that it can directly be written to json or csv files.
-This is done by providing an output directory: 
-
-``` r
-output <- scan_px_file(
-  'https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0602000000_107',
-  locale="en",
-  output_dir = paste0(getwd(), '/output/'))
-```
-
-For multilingual files the output consists of the following files:
-
-- `metadata.json` : this file stores the metadata redundance free in the default language
-- `metadata-en.json`: a file where the metadata is translated to the given locale
-- `data-en.csv`: a csv file with the data and the headers in the chosen locale
-
 ### Examples
 
-In `tests/testthat` in the directories `data` and `output` example input and 
-output files are kept for testing purposes. They might also be helpful in understanding 
-how px cubes are parsed by the package.
+In `scripts` directory there are examples to run. Most example are from 
+the Swiss Federal Office of Statistics: `/scripts/bfs_px_files.R` but there 
+is also a script `/scripts/other_px_files.R` for other px files. These
+scripts include complete examples. They are meant for further exploration of the output of this package.
 
 ### Warnings and Restrictions
 
@@ -107,8 +88,3 @@ output <- scan_px_file(
   locale = "de",
   encoding = "UTF-8")
 ```
-
-#### Keywords
-
-Only keywords in the file `supported_keywords.csv` are currently supported.
-If an unsupported keyword is detected in the parsed px cube, the user is informed about this.

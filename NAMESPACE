@@ -2,3 +2,4 @@
 
 export(scan_px_file)
 importFrom(dplyr,"%>%")
+importFrom(utils,tail)

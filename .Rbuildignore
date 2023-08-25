@@ -1,3 +1,8 @@
 ^pxRRead\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^scripts
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
