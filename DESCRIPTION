@@ -2,7 +2,15 @@ Package: pxRRead
 Title: Read and Parse px files
 Version: 0.1.0
 Authors@R: 
-    person("Sabine", "Maennel", , "sabine.maennel@gmail.com", role = c("aut", "cre"))
+    c(person(given = "Sabine", 
+             familiy = "Maennel", 
+             email = "sabine.maennel@sdsc.ethz.ch", 
+             role = c("aut", "cre")),
+      person(given = "Laure",
+             familiy = "Vancauwenberghe",
+             email = "laure.vancauwenberghe@epfl.ch",
+             role = c("ctb", "cre"))
+Maintainer: Sabine Maennel <sabine.maennel@sdsc.ethz.ch>
 Description: Download px file and parse the downloaded file.
 License: MIT + file LICENSE
 Language: en-US
