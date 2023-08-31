@@ -2,6 +2,8 @@
 
 <!-- badges: start -->
 
+[![Codecov test coverage](https://codecov.io/gh/SDSC-ORD/pxRRead/branch/main/graph/badge.svg)](https://app.codecov.io/gh/SDSC-ORD/pxRRead?branch=main)
+
 <!-- badges: end -->
 
 ## About
