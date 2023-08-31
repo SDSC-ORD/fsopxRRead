@@ -35,7 +35,11 @@ scan_px_file('https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0602000
 
 The goal of this package is to offer the metadata and data in a reduction free machine readable way.
 
-The output consist of a list of data and metadata: - `output$metadata` includes all metadata in the default language - `output$dataframe` is a tibble with the length of the `DATA` of the px cube - The dimensions in "STUB" and "HEADING" of the px cube are all turned into columns of the tibble
+The output consist of a list of data and metadata: 
+
+* `output$metadata` includes all metadata in the default language
+* `output$dataframe` is a tibble with the length of the `DATA` of the px cube
+* The dimensions in "STUB" and "HEADING" of the px cube are all turned into columns of the tibble
 
 ``` r
 output <- scan_px_file('https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0602000000_107')
