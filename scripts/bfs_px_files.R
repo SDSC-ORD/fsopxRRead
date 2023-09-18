@@ -108,9 +108,3 @@ ds
 # Betriebe nach Schwierigkeiten bei der Personalrekrutierung
 url <- "https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-0602000000_107"
 ds <- scan_px_file(url, locale = "en")
-
-ds
-
-ds$dataframe %>% print(n=190)
-library(dplyr)
-
