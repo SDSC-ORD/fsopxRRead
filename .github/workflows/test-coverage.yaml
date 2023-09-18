@@ -50,6 +50,6 @@ jobs:
           path: ${{ runner.temp }}/package
 
       - name: Upload coverage reports to Coverall
-        uses: covr::coveralls()
+        uses: coverallsapp/github-action@v2
         env:
           COVERALLS_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
