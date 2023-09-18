@@ -1,9 +1,7 @@
 #' Scan a px cube file and return px data and metadata
 #'
-#' The Px file can be requested for a locale.
-#' The output contains the metadata as json files.
-#' The data is returned as a dataframe but also as csv file
-#' The output will be stored in an output directory of choice.
+#' The px file can be requested for a locale.
+#' The data and metadata are both returned as dataframe
 #'
 #' @param file_or_url url or file path to px cube
 #'                    if the url gets a timeout: it is best to download
@@ -14,43 +12,32 @@
 #'        are skipped
 #' @param encoding chose encoding as either UTF-8 or latin1
 #'        default is latin1
-#' @param output_dir directory for writing the output files (optional)
-#'        if not provided the output will not be offered as files
 #'
 #' @return output contains of 2 parts: metadata and dataframe
-#'         additionally the output may be written to files
-#'         the files consist of a csv file with the data and
-#'         a json file with the metadata. In case a locale is
-#'         requested, the default metadata is provided along
-#'         with the translated metadata
+#'
 #' @export
 #'
-#' @examples scan_px_file("px-x-0102020203_110.px",
-#'                        locale="en",
-#'                        encoding="UTF-8",
-#'                        output_dir="/tmp/")
+#' @examples
+#' scan_px_file(
+#'   "https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-1703010000_103",
+#'   locale="fr"
+#' )
 scan_px_file <- function(
-  file_or_url,
-  locale = "default",
-  encoding = "latin1",
-  output_dir = NULL) {
+    file_or_url,
+    locale = NULL,
+    encoding = "latin1"
+) {
   tryCatch(
     {
-      # check px file format and get back default language and available locales
-      file <- check_file_or_url(file_or_url, locale, encoding)
-      check_output_dir(output_dir)
       assertthat::assert_that(encoding %in% c("UTF-8", "latin1"))
 
-      supported_keywords <- get_supported_px_keywords()
+      suppressWarnings(lines <- readLines(
+        con = file_or_url,
+        encoding = encoding
+      ))
 
-      scanned_lines <- scan(
-        file_or_url,
-        what = "list",
-        sep = ";",
-        quote = NULL,
-        quiet = TRUE,
-        encoding = encoding,
-        multi.line = TRUE)
+      # check px file format and get back default language and available locales
+      locale <- check_file_or_url(lines[1:10], locale)
     },
     error = function(error_message) {
       stop(error_message)
@@ -58,78 +45,52 @@ scan_px_file <- function(
   )
 
   # group px data by px keywords
-  px_cube <- parse_px_lines(
-    scanned_lines,
-    supported_keywords)
+  px_key_pattern <- get_localized_keyword_pattern(
+    locale
+  )
+  idx <- get_line_index(
+    lines,
+    px_key_pattern
+  )
 
-  # get px_keys for metadata in default language
-  px_keys <- names(px_cube$metadata)
-  if (file$is_multilingual) {
-    px_default_keys <- px_keys[!is_language_specific_key(px_keys,
-                                                         file$language_pattern)]
-  } else {
-    px_default_keys <- px_keys
+  # get list of metadata
+  metadata_list <- list()
+  for (px_key in c("UNITS", "STUB", "HEADING", "TITLE")) {
+    item_lines <- get_lines_for_px_key(lines, idx, px_key)
+    values <- get_values_from_lines(item_lines)
+    metadata_list[[px_key]] <- values
   }
 
-  # process metadata in default language and write json file of default language
-  px_default <- process_px_metadata(px_cube$metadata,
-                                    px_default_keys)
-  metadata_default <- px_default$metadata
-  if (!is.null(output_dir)) {
-    write_json_output(metadata_default,
-                      output_dir,
-                      "metadata.json")
-  }
+  # metadata as a tibble
+  metadata <- tibble::tibble(
+    title = metadata_list$TITLE,
+    units = list(metadata_list$UNITS),
+    stub = list(metadata_list$STUB),
+    heading = list(metadata_list$HEADING),
+  )
 
-  if (file$is_multilingual && (file$locale != file$default_language)) {
-    # get px_keys for locale
-    px_locale_keys <- get_px_locale_keys(px_keys,
-                                         px_default_keys,
-                                         px_default$dimension_dependent_keys,
-                                         locale)
-    # process metadata locale
-    px_locale <- process_px_metadata(px_cube$metadata,
-                                     px_locale_keys,
-                                     file$locale)
-    metadata_output <- px_locale$metadata
-    if (!is.null(output_dir)) {
-      write_json_output(metadata_output, output_dir,
-                        paste0("metadata-", file$locale, ".json"))
-    }
-  } else {
-    metadata_output <- metadata_default
-  }
+  # get dimensions
+  heading_dimension_names <- metadata$heading %>% unlist()
+  stub_dimension_names <- metadata$stub %>% unlist()
 
   # order dimensions
-  dimension_order <- c(metadata_output$STUB, metadata_output$HEADING)
+  dimension_names <- c(stub_dimension_names, heading_dimension_names)
+  dimensions_with_values <- build_dimensions(dimension_names, lines, idx, locale)
 
-  # gather output as localized dataframe
+  # get the data
+  data_lines <- get_lines_for_px_key(lines, idx, "DATA")
+  suppressWarnings(data <- vectorize_data(data_lines))
 
+  # make localized tibble with data and dimensions
   # Build the grid by iterating though the dimensions:
-
   # iterate through the innermost dimensions first: for this arrange_all is needed
   # since expand_grid iterates first through the outermost variables
-  df <- expand.grid(dimension_order) %>% dplyr::arrange_all()
+  dataframe <- expand.grid(dimensions_with_values) %>%
+    dplyr::arrange_all() %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(data = data) %>%
+    janitor::clean_names()
 
-  # rename the data column
-  data_col_name <- paste0("data[", metadata_output$UNIT, "]")
-
-  # finally add the data
-  df[, data_col_name] <- px_cube$data
-
-  output <- list("metadata" = metadata_output,
-                 "dataframe" = tibble::as_tibble(df))
-
-  if (!is.null(output_dir)) {
-    # also write dataframe to csv file
-    if (file$is_multilingual) {
-      data_file_name <- paste0("data-", file$locale)
-    } else {
-      data_file_name <- "data"
-    }
-    file_path <- paste0(output_dir, data_file_name, ".csv")
-    write.table(output$dataframe, file = file_path, sep = ";",
-                row.names = FALSE)
-  }
-  return(output)
+  return(list(dataframe=dataframe, metadata=metadata))
 }
+

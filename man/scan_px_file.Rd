@@ -4,13 +4,7 @@
 \alias{scan_px_file}
 \title{Scan a px cube file and return px data and metadata}
 \usage{
-scan_px_file(
-  file_or_url,
-  locale = "default",
-  encoding = "latin1",
-  reverse_stub = FALSE,
-  output_dir = NULL
-)
+scan_px_file(file_or_url, locale = NULL, encoding = "latin1")
 }
 \arguments{
 \item{file_or_url}{url or file path to px cube
@@ -24,32 +18,17 @@ are skipped}
 
 \item{encoding}{chose encoding as either UTF-8 or latin1
 default is latin1}
-
-\item{reverse_stub}{default FALSE: decided whether the sequence
-of the data is according to the order of the
-dimensions in the stub or in the revered order}
-
-\item{output_dir}{directory for writing the output files (optional)
-if not provided the output will not be offered as files}
 }
 \value{
 output contains of 2 parts: metadata and dataframe
-additionally the output may be written to files
-the files consist of a csv file with the data and
-a json file with the metadata. In case a locale is
-requested, the default metadata is provided along
-with the translated metadata
 }
 \description{
-The Px file can be requested for a locale.
-The output contains the metadata as json files.
-The data is returned as a dataframe but also as csv file
-The output will be stored in an output directory of choice.
+The px file can be requested for a locale.
+The data and metadata are both returned as dataframe
 }
 \examples{
-scan_px_file("px-x-0102020203_110.px",
-                       locale="en",
-                       encoding="UTF-8",
-                       reverse_stub = FALSE,
-                       output_dir="/tmp/")
+scan_px_file(
+  "https://www.pxweb.bfs.admin.ch/DownloadFile.aspx?file=px-x-1703010000_103",
+  locale="fr"
+)
 }
