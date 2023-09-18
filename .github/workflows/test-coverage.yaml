@@ -50,6 +50,11 @@ jobs:
           name: coverage-test-failures
           path: ${{ runner.temp }}/package
 
+      - name: Echo Env
+        id: echo_coveralls_token
+        run: |
+          echo "COVERALLS_TOKEN=$COVERALLS_TOKEN"   
+
       - name: Enable Repo on Coveralls
         id: enable_coveralls
         run: |
